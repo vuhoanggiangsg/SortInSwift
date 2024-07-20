@@ -1,0 +1,45 @@
+func swap(_ arr: inout [Int], _ i: Int, _ j: Int) {
+    let temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+func partition(_ arr: inout [Int], _ low: Int, _ high: Int) -> Int {
+    let pivot = arr[high] // pivot element
+    var i = low - 1 // index of smaller element
+
+    for j in low..<high {
+        // If current element is smaller than or equal to pivot
+        if arr[j] <= pivot {
+            i += 1 // increment index of smaller element
+            swap(&arr, i, j)
+        }
+    }
+    swap(&arr, i + 1, high)
+    return i + 1
+}
+
+func quickSort(_ arr: inout [Int], _ low: Int, _ high: Int) {
+    if low < high {
+        // pi is partitioning index, arr[pi] is now at right place
+        let pi = partition(&arr, low, high)
+
+        // Separately sort elements before partition and after partition
+        quickSort(&arr, low, pi - 1)
+        quickSort(&arr, pi + 1, high)
+    }
+}
+
+func printArray(_ arr: [Int]) {
+    for element in arr {
+        print("\(element) ", terminator: "")
+    }
+    print()
+}
+
+// Example usage
+var arr = [10, 7, 8, 9, 1, 5]
+let n = arr.count
+quickSort(&arr, 0, n - 1)
+print("Sorted array:")
+printArray(arr)
